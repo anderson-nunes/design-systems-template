@@ -1,5 +1,10 @@
+import { ChakraBaseProvider } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import SocialProfileWithImage from "./components/Card";
+import BackdropExample from "./components/Modal";
+import BasicUsage from "./components/Modal";
+
 
 export default function App() {
   const [users, setUsers] = useState([]);
@@ -10,10 +15,7 @@ export default function App() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-
+      const response = await axios.get("https://jsonplaceholder.typicode.com/users");
       setUsers(response.data);
     } catch (error) {
       console.log("Erro ao buscar usuários");
@@ -23,8 +25,12 @@ export default function App() {
 
   return (
     <>
-      <h1>Me apague quando for iniciar!</h1>
-      <p>Chame o Card aqui!</p>
+      <ChakraBaseProvider>
+        <BackdropExample />
+        {users.map((user) => {
+          return <SocialProfileWithImage user={user} />
+        })}
+      </ChakraBaseProvider>
     </>
   );
 }
